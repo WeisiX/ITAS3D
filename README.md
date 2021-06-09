@@ -2,7 +2,7 @@
 
 Pytorch implementation for the image translation assisted segmentation in 3D (ITAS3D), an annotation-free 3D gland-segmentation method based on generative image-sequence translation, which allowed us to extract histomorphometric glandular features. It consists of two parts: the image-sequence translation from the fluorescent analog of H&E histology images to CK8 immunofluorescence (initiated with single-level image translation), and the 3D segmentation of glands based on the synthetic CK8.
 
-[add figure]
+<img src="https://github.com/WeisiX/ITAS3D/img/overview.jpg" width="800"/>
 
 
 The code and user instrctions borrow heavily from [Video-to-Video Synthesis](https://tcwang0509.github.io/vid2vid/) and [pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
@@ -18,7 +18,7 @@ The code and user instrctions borrow heavily from [Video-to-Video Synthesis](htt
 ### Installation
 - Clone this repo:
 ```bash
-git clone https://https://github.com/WeisiX/ITAS3D/seq_translation
+git clone https://github.com/WeisiX/ITAS3D/seq_translation
 cd ITAS3D/seq_translation
 ```
 - The dependencies are available in the ITAS3D/img_translation/environment.yml
@@ -62,13 +62,26 @@ cd ITAS3D/img_translation
   ```
 
 ## Testing/Inference of image-sequence translation
-- We provided a sample test script(`bash /ITAS3D/seq_translation/scripts/test_g1_1024.sh`)
+
+- Sample test case can be downloaded with 
+```bash
+cd /ITAS3D/seq_translation/
+python ./scripts/download_datasets_ITAS3D.py
 ```
+- Trained models can be downloaded with 
+```bash
+cd /ITAS3D/seq_translation/
+python ./scripts/download_models_ITAS3D.py
+```
+
+- We provided a sample test script(`bash /ITAS3D/seq_translation/scripts/test_g1_1024.sh`)
+
+```bash
 ## Step 1: single-level image translation
 
 source activate img_translation
 
-python /ITAS3D/img_translation/test.py --dataroot /ITAS3D/img_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/img_translation/checkpoints --name [img_model_name] --model pix2pix --netG unet_512 --direction AtoB --dataset_mode frameseqtest --norm batch --input_nc 3 --output_nc 1 --results_dir /ITAS3D/img_translation/results/[dataset_name] --num_test 100000 --load_size 1024 --crop_size 1024 
+python /ITAS3D/img_translation/test.py --dataroot /ITAS3D/seq_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/img_translation/checkpoints --name [img_model_name] --model pix2pix --netG unet_512 --direction AtoB --dataset_mode frameseqtest --norm batch --input_nc 3 --output_nc 1 --results_dir /ITAS3D/img_translation/results/[dataset_name] --num_test 100000 --load_size 1024 --crop_size 1024 
 
 python /ITAS3D/img_translation/sciprt_updatech0.py --group_name [dataset_name]
 
@@ -76,7 +89,7 @@ python /ITAS3D/img_translation/sciprt_updatech0.py --group_name [dataset_name]
 conda deactivate
 source activate seq_translation
 
-python /ITAS3D/img_translation/test.py --name [seq_model_name] --dataroot /ITAS3D/img_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/img_translation/checkpoints --dataset_mode w1_test --output_nc 3 --loadSize 1024 --n_scales_spatial 1 --n_downsample_G 2 --use_real_img --results_dir /ITAS3D/img_translation/results/[dataset_name] --how_many 100000
+python /ITAS3D/seq_translation/test.py --name [seq_model_name] --dataroot /ITAS3D/seq_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/seq_translation/checkpoints --dataset_mode w1_test --output_nc 3 --loadSize 1024 --n_scales_spatial 1 --n_downsample_G 2 --use_real_img --results_dir /ITAS3D/seq_translation/results/[dataset_name] --how_many 100000
 
 conda deactivate
 ```

@@ -1,0 +1,10 @@
+*.DS_Store
+*/*.DS_Store
+*/*/*.DS_Store
+*/datasets/
+*/checkpoints/
+*/results/
+*/models/flownet2*
+*/build
+*/*/**/__pycache__
+*~
