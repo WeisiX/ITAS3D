@@ -1,0 +1,2 @@
+  source activate seq_translation
+  python /ITAS3D/seq_translation/train.py --name [seq_model_name] --dataroot /ITAS3D/seq_translation/datasets/[dataset_name]/ --checkpoints_dir /ITAS3D/seq_translation/checkpoints --dataset_mode w1 --output_nc 3 --loadSize 800 --n_downsample_G 2 --n_frames_D 2 --num_D 3 --max_frames_per_gpu 1 --n_frames_total 4 --niter_step 2 

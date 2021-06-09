@@ -1,0 +1,2 @@
+source activate img_translation
+  python /ITAS3D/img_translation/train.py --dataroot /ITAS3D/img_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/img_translation/checkpoints --name [img_model_name] --model pix2pix --netG unet_512 --direction AtoB --lambda_L1 100 --dataset_mode frameseq --norm batch --pool_size 0 --input_nc 3 --output_nc 1 --load_size 1024 --crop_size 512 --display_id 0
