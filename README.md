@@ -1,9 +1,10 @@
 # ITAS3D
 
-Pytorch implementation for the image translation assisted segmentation in 3D (ITAS3D), an annotation-free 3D gland-segmentation method based on generative image-sequence translation, which allowed us to extract histomorphometric glandular features. It consists of two parts: the image-sequence translation from the fluorescent analog of H&E histology images to CK8 immunofluorescence (initiated with single-level image translation), and the 3D segmentation of glands based on the synthetic CK8.
+Pytorch implementation for the image translation assisted segmentation in 3D (ITAS3D), an annotation-free 3D gland-segmentation method based on generative image-sequence translation, which allowed us to extract histomorphometric glandular features. 
 
-<img src="https://github.com/WeisiX/ITAS3D/img/overview.jpg" width="800"/>
+This pipeline consists of two steps: the image-sequence translation from the fluorescent analog of H&E histology images to CK8 immunofluorescence (initiated with single-level image translation), and the 3D segmentation of glands based on the synthetic CK8.
 
+<img src="https://github.com/WeisiX/ITAS3D/blob/master/img/overview.png" width="600px"/>
 
 The code and user instrctions borrow heavily from [Video-to-Video Synthesis](https://tcwang0509.github.io/vid2vid/) and [pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
 
@@ -18,10 +19,10 @@ The code and user instrctions borrow heavily from [Video-to-Video Synthesis](htt
 ### Installation
 - Clone this repo:
 ```bash
-git clone https://github.com/WeisiX/ITAS3D/seq_translation
+git clone https://github.com/WeisiX/ITAS3D
 cd ITAS3D/seq_translation
 ```
-- The dependencies are available in the ITAS3D/img_translation/environment.yml
+- The dependencies are available in `ITAS3D/img_translation/environment.yml`
 - We strongly suggest to create an individual conda environment for the image-sequence translation, for example, `seq_translation`.
 
 ### Training
@@ -29,7 +30,8 @@ cd ITAS3D/seq_translation
 
 - Training with a single GPU:
   - We trained our models with a 12-GB GPU (NVIDIA Tesla P100) at the targeted resolution (1024 x 1024 for each level in the image sequence). 
-  - For example, we provided a sample training script (`bash /ITAS3D/seq_translation/scripts/train_g1_1024.sh`)
+  - For example, we provided a sample training script (`/ITAS3D/seq_translation/scripts/train_g1_1024.sh`)
+ 
   ```bash
   source activate seq_translation
   python /ITAS3D/seq_translation/train.py --name [seq_model_name] --dataroot /ITAS3D/seq_translation/datasets/[dataset_name]/ --checkpoints_dir /ITAS3D/seq_translation/checkpoints --dataset_mode w1 --output_nc 3 --loadSize 800 --n_downsample_G 2 --n_frames_D 2 --num_D 3 --max_frames_per_gpu 1 --n_frames_total 4 --niter_step 2 
@@ -45,7 +47,7 @@ cd ITAS3D/seq_translation
 ### Installation
 - Clone this repo:
 ```bash
-git clone https://https://github.com/WeisiX/ITAS3D/img_translation
+git clone https://https://github.com/WeisiX/ITAS3D
 cd ITAS3D/img_translation
 ```
 - The dependencies are available in the ITAS3D/img_translation/environment.yml
@@ -55,7 +57,8 @@ cd ITAS3D/img_translation
 
 - Training with a single GPU:
   - We trained our models with a 12-GB GPU (NVIDIA Tesla P100) at the targeted resolution (1024 x 1024 for each level in the image sequence). 
-  - For example, we provided a sample training script (`bash /ITAS3D/img_translation/scripts/train_xxxx.sh`)
+  - For example, we provided a sample training script (`/ITAS3D/img_translation/scripts/train_xxxx.sh`)
+ 
   ```bash
   source activate img_translation
   python /ITAS3D/img_translation/train.py --dataroot /ITAS3D/img_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/img_translation/checkpoints --name [img_model_name] --model pix2pix --netG unet_512 --direction AtoB --lambda_L1 100 --dataset_mode frameseq --norm batch --pool_size 0 --input_nc 3 --output_nc 1 --load_size 1024 --crop_size 512 --display_id 0
@@ -74,7 +77,7 @@ cd /ITAS3D/seq_translation/
 python ./scripts/download_models_ITAS3D.py
 ```
 
-- We provided a sample test script(`bash /ITAS3D/seq_translation/scripts/test_g1_1024.sh`)
+- We provided a sample test script(`/ITAS3D/seq_translation/scripts/test_g1_1024.sh`)
 
 ```bash
 ## Step 1: single-level image translation
