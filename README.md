@@ -102,3 +102,6 @@ conda deactivate
 
 ## 3D gland segmentation based on synthetic CK8 immunofluorescence images
 - Please see code in `/ITAS3D/segmentation.ipynb`
+
+## Glandular feature extraction
+- Please see code in the folder `/ITAS3D/glandular_feature`
