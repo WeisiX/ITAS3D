@@ -1,7 +1,8 @@
 import os
 from download_gdrive import *
 
-file_id = 'GI965WdyFAPMUqfbESFUeIki43kUAqUP'
+# file_id = 'GI965WdyFAPMUqfbESFUeIki43kUAqUP'
+file_id = '1__hPIPGe0yI0XbmhkVWfo-oJ8kaGBF6J'
 chpt_path = './datasets/'
 if not os.path.isdir(chpt_path):
 	os.makedirs(chpt_path)

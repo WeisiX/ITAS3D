@@ -34,7 +34,7 @@ cd ITAS3D/seq_translation
  
   ```bash
   source activate seq_translation
-  python /ITAS3D/seq_translation/train.py --name [seq_model_name] --dataroot /ITAS3D/seq_translation/datasets/[dataset_name]/ --checkpoints_dir /ITAS3D/seq_translation/checkpoints --dataset_mode w1 --output_nc 3 --loadSize 800 --n_downsample_G 2 --n_frames_D 2 --num_D 3 --max_frames_per_gpu 1 --n_frames_total 4 --niter_step 2 
+  python /ITAS3D/seq_translation/train.py --name ${SEQ_MODEL_NAME} --dataroot /ITAS3D/seq_translation/datasets/${DATASET_NAME}/ --checkpoints_dir /ITAS3D/seq_translation/checkpoints --dataset_mode w1 --output_nc 3 --loadSize 800 --n_downsample_G 2 --n_frames_D 2 --num_D 3 --max_frames_per_gpu 1 --n_frames_total 4 --niter_step 2 
   ```
   
 ## Single-level image translation training
@@ -57,11 +57,11 @@ cd ITAS3D/img_translation
 
 - Training with a single GPU:
   - We trained our models with a 12-GB GPU (NVIDIA Tesla P100) at the targeted resolution (1024 x 1024 for each level in the image sequence). 
-  - For example, we provided a sample training script (`/ITAS3D/img_translation/scripts/train_xxxx.sh`)
+  - For example, we provided a sample training script (`/ITAS3D/img_translation/scripts/train_img_translation.sh`)
  
   ```bash
   source activate img_translation
-  python /ITAS3D/img_translation/train.py --dataroot /ITAS3D/img_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/img_translation/checkpoints --name [img_model_name] --model pix2pix --netG unet_512 --direction AtoB --lambda_L1 100 --dataset_mode frameseq --norm batch --pool_size 0 --input_nc 3 --output_nc 1 --load_size 1024 --crop_size 512 --display_id 0
+  python /ITAS3D/img_translation/train.py --dataroot /ITAS3D/img_translation/datasets/${DATASET_NAME} --checkpoints_dir /ITAS3D/img_translation/checkpoints --name ${IMG_MODEL_NAME} --model pix2pix --netG unet_512 --direction AtoB --lambda_L1 100 --dataset_mode frameseq --norm batch --pool_size 0 --input_nc 3 --output_nc 1 --load_size 1024 --crop_size 512 --display_id 0
   ```
 
 ## Testing/Inference of image-sequence translation
@@ -84,15 +84,15 @@ python ./scripts/download_models_ITAS3D.py
 
 source activate img_translation
 
-python /ITAS3D/img_translation/test.py --dataroot /ITAS3D/seq_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/img_translation/checkpoints --name [img_model_name] --model pix2pix --netG unet_512 --direction AtoB --dataset_mode frameseqtest --norm batch --input_nc 3 --output_nc 1 --results_dir /ITAS3D/img_translation/results/[dataset_name] --num_test 100000 --load_size 1024 --crop_size 1024 
+python /ITAS3D/img_translation/test.py --dataroot /ITAS3D/seq_translation/datasets/${DATASET_NAME} --checkpoints_dir /ITAS3D/img_translation/checkpoints --name ${IMG_MODEL_NAME} --model pix2pix --netG unet_512 --direction AtoB --dataset_mode frameseqtest --norm batch --input_nc 3 --output_nc 1 --results_dir /ITAS3D/img_translation/results/${DATASET_NAME} --num_test 100000 --load_size 1024 --crop_size 1024 
 
-python /ITAS3D/img_translation/sciprt_updatech0.py --group_name [dataset_name]
+python /ITAS3D/img_translation/script_updatech0.py --group_name ${DATASET_NAME} --img_model_name ${IMG_MODEL_NAME}
 
 ## Step 2: image-sequence translation
 conda deactivate
 source activate seq_translation
 
-python /ITAS3D/seq_translation/test.py --name [seq_model_name] --dataroot /ITAS3D/seq_translation/datasets/[dataset_name] --checkpoints_dir /ITAS3D/seq_translation/checkpoints --dataset_mode w1_test --output_nc 3 --loadSize 1024 --n_scales_spatial 1 --n_downsample_G 2 --use_real_img --results_dir /ITAS3D/seq_translation/results/[dataset_name] --how_many 100000
+python /ITAS3D/seq_translation/test.py --name ${SEQ_MODEL_NAME} --dataroot /ITAS3D/seq_translation/datasets/${DATASET_NAME} --checkpoints_dir /ITAS3D/seq_translation/checkpoints --dataset_mode w1_test --output_nc 3 --loadSize 1024 --n_scales_spatial 1 --n_downsample_G 2 --use_real_img --results_dir /ITAS3D/seq_translation/results/${DATASET_NAME} --how_many 100000
 
 conda deactivate
 ```

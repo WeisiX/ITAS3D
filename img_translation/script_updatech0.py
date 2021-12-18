@@ -8,11 +8,12 @@ import argparse
 ############ INPUT PARAMETERS ############
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--group_name", type=str, help="[datset_name]")
+parser.add_argument("--group_name", type=str, help="the name of dataset folder")
+parser.add_argument("--img_model_name", type=str, help="the model nam for image-to-image translation")
 args = parser.parse_args()
 
 group_name = args.group_name
-
+img_model_name = args.img_model_name
 
 ############ PROCESS ############
 
@@ -20,7 +21,8 @@ group_name = args.group_name
 
 seq_folder_list = glob.glob('/ITAS3D/seq_translation/datasets/'+group_name+'/test/ch0/*') 
 
-p2p_ch0_folder = '/ITAS3D/img_translation/results/'+group_name+'/[img_model_name]/test_latest/images/'
+# input the IMG_MODEL_NAME
+p2p_ch0_folder = '/ITAS3D/img_translation/results/'+group_name+'/'+img_model_name+'/test_latest/images/'
 
 for seq_dir in seq_folder_list:
     # print('-----', seq_dir)
