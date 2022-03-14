@@ -1,11 +1,8 @@
 #!/bin/bash
 cd ./networks/correlation_package
-chmod u+x make.sh
-./make.sh
+python setup.py install --user
 cd ../resample2d_package 
-chmod u+x make.sh
-./make.sh
+python setup.py install --user
 cd ../channelnorm_package 
-chmod u+x make.sh
-./make.sh
+python setup.py install --user
 cd ..

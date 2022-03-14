@@ -1,9 +1,13 @@
 *.DS_Store
 */*.DS_Store
 */*/*.DS_Store
+*.icloud
+*/*.icloud
+*/*/*.icloud
 */datasets/
 */checkpoints/
 */results/
+*/models/flownet2_pytorch_different_versions
 */models/flownet2*/networks/*/*egg-info
 */models/flownet2*/networks/*/build
 */models/flownet2*/networks/*/__pycache__

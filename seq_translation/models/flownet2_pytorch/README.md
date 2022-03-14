@@ -12,7 +12,7 @@ For more help, type <br />
 
 ## Network architectures
 Below are the different flownet neural network architectures that are provided. <br />
-A batchnorm version for each network is available.
+A batchnorm version for each network is also available.
 
  - **FlowNet2S**
  - **FlowNet2C**
@@ -43,14 +43,15 @@ L1 and L2 losses with multi-scale support are available in [losses.py](./losses.
 
     # install custom layers
     bash install.sh
-
-## Docker image
-Libraries and other dependencies for this project include: Ubuntu 16.04, Python 2.7, Pytorch 0.2, CUDNN 6.0, CUDA 8.0
-
-A Dockerfile with the above dependencies is available 
     
-    # Build and launch docker image
-    bash launch_docker.sh
+### Python requirements 
+Currently, the code supports python 3
+* numpy 
+* PyTorch ( == 0.4.1, for <= 0.4.0 see branch [python36-PyTorch0.4](https://github.com/NVIDIA/flownet2-pytorch/tree/python36-PyTorch0.4))
+* scipy 
+* scikit-image
+* tensorboardX
+* colorama, tqdm, setproctitle 
 
 ## Converted Caffe Pre-trained Models
 We've included caffe pre-trained models. Should you use these pre-trained weights, please adhere to the [license agreements](https://drive.google.com/file/d/1TVv0BnNFh3rpHZvD-easMb9jYrPE2Eqd/view?usp=sharing). 
@@ -86,7 +87,7 @@ We've included caffe pre-trained models. Should you use these pre-trained weight
 [![Predicted flows on MPI-Sintel](./image.png)](https://www.youtube.com/watch?v=HtBmabY8aeU "Predicted flows on MPI-Sintel")
 
 ## Reference 
-If you find this implementation useful in your work, please acknowledge it appropriately and cite the paper using:
+If you find this implementation useful in your work, please acknowledge it appropriately and cite the paper:
 ````
 @InProceedings{IMKDB17,
   author       = "E. Ilg and N. Mayer and T. Saikia and M. Keuper and A. Dosovitskiy and T. Brox",
@@ -97,6 +98,19 @@ If you find this implementation useful in your work, please acknowledge it appro
   url          = "http://lmb.informatik.uni-freiburg.de//Publications/2017/IMKDB17"
 }
 ````
+```
+@misc{flownet2-pytorch,
+  author = {Fitsum Reda and Robert Pottorff and Jon Barker and Bryan Catanzaro},
+  title = {flownet2-pytorch: Pytorch implementation of FlowNet 2.0: Evolution of Optical Flow Estimation with Deep Networks},
+  year = {2017},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/NVIDIA/flownet2-pytorch}}
+}
+```
+## Related Optical Flow Work from Nvidia 
+Code (in Caffe and Pytorch): [PWC-Net](https://github.com/NVlabs/PWC-Net) <br />
+Paper : [PWC-Net: CNNs for Optical Flow Using Pyramid, Warping, and Cost Volume](https://arxiv.org/abs/1709.02371). 
 
 ## Acknowledgments
 Parts of this code were derived, as noted in the code, from [ClementPinard/FlowNetPytorch](https://github.com/ClementPinard/FlowNetPytorch).

@@ -11,9 +11,9 @@ from .submodules import *
 'Parameter count , 39,175,298 '
 
 class FlowNetC(nn.Module):
-    def __init__(self,args, batchNorm=True, div_flow = 20):
+    def __init__(self, args, batchNorm=True, div_flow = 20):
         super(FlowNetC,self).__init__()
-
+        self.fp16 = args.fp16
         self.batchNorm = batchNorm
         self.div_flow = div_flow
 
@@ -22,13 +22,13 @@ class FlowNetC(nn.Module):
         self.conv3   = conv(self.batchNorm, 128,  256, kernel_size=5, stride=2)
         self.conv_redir  = conv(self.batchNorm, 256,   32, kernel_size=1, stride=1)
 
-        if args.fp16:
+        """if args.fp16:
             self.corr = nn.Sequential(
                 tofp32(),
                 Correlation(pad_size=20, kernel_size=1, max_displacement=20, stride1=1, stride2=2, corr_multiply=1),
                 tofp16())
-        else:
-            self.corr = Correlation(pad_size=20, kernel_size=1, max_displacement=20, stride1=1, stride2=2, corr_multiply=1)
+        else:"""
+        self.corr = Correlation(pad_size=20, kernel_size=1, max_displacement=20, stride1=1, stride2=2, corr_multiply=1)
 
         self.corr_activation = nn.LeakyReLU(0.1,inplace=True)
         self.conv3_1 = conv(self.batchNorm, 473,  256)
@@ -55,17 +55,17 @@ class FlowNetC(nn.Module):
         self.upsampled_flow4_to_3 = nn.ConvTranspose2d(2, 2, 4, 2, 1, bias=True)
         self.upsampled_flow3_to_2 = nn.ConvTranspose2d(2, 2, 4, 2, 1, bias=True)
 
-        """for m in self.modules():
+        for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 if m.bias is not None:
-                    init.uniform(m.bias)
-                init.xavier_uniform(m.weight)
+                    init.uniform_(m.bias)
+                init.xavier_uniform_(m.weight)
 
             if isinstance(m, nn.ConvTranspose2d):
                 if m.bias is not None:
-                    init.uniform(m.bias)
-                init.xavier_uniform(m.weight)
-                # init_deconv_bilinear(m.weight)"""
+                    init.uniform_(m.bias)
+                init.xavier_uniform_(m.weight)
+                # init_deconv_bilinear(m.weight)
         self.upsample1 = nn.Upsample(scale_factor=4, mode='bilinear')
 
     def forward(self, x):
@@ -83,7 +83,10 @@ class FlowNetC(nn.Module):
         out_conv3b = self.conv3(out_conv2b)
 
         # Merge streams
-        out_corr = self.corr(out_conv3a, out_conv3b) # False
+        if self.fp16:                        
+            out_corr = self.corr(out_conv3a.float(), out_conv3b.float()).half() # False            
+        else:
+            out_corr = self.corr(out_conv3a, out_conv3b) # False
         out_corr = self.corr_activation(out_corr)
 
         # Redirect top input stream and concatenate
